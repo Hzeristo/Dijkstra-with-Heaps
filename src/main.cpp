@@ -18,7 +18,7 @@ int main(){
             LARGE_INTEGER t1,t2,tc;
             QueryPerformanceFrequency(&tc);
             QueryPerformanceCounter(&t1);
-            int d = dijkstra(t, 30, 42, bq);
+            int d = dijkstra(t, 30, 23, bq);
             cout <<"distance = "<< d;
             QueryPerformanceCounter(&t2);
             double time = (double)(t2.QuadPart-t1.QuadPart)/(double)tc.QuadPart; 

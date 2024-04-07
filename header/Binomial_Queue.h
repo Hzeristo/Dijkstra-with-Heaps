@@ -5,46 +5,46 @@
 
 using namespace std;
 
-class BiNode{
+class BiNode
+{
 public:
-    int key;       // 关键字(键值)
-    int vertex;    // 节点信息
-    BiNode *child; // 子节点
-    BiNode *sibling; // 兄弟节点
+    int key; // 关键字(键值)
+    int vertex; // 顶点
+    int degree; // 度数
+    BiNode* child; // 左孩子
+    BiNode* parent; // 父节点
+    BiNode* next; // 兄弟节点
 
-    BiNode():key(-1), vertex(-1), child(nullptr), sibling(nullptr) {};
-    BiNode(int value, int vertex):key(value), vertex(vertex), child(nullptr), sibling(nullptr) {}
-
+    BiNode():key(-1), vertex(-1), degree(0){}
+    BiNode(int key, int vertex):key(key), vertex(vertex), degree(0), child(nullptr), parent(nullptr), next(nullptr){};
 };
 
-class Binomial_Queue{
-private:
-    unordered_map<int, BiNode> heads;
-    int currentSize;
-public:
-    Binomial_Queue():currentSize(0),heads({}){}
-    Binomial_Queue(BiNode* node):currentSize(1),heads({})
-    {
-        heads[0] = *node;
-    }
-    ~Binomial_Queue(){}
+class Binomial_Queue
+{
+    private:
+    BiNode* mRoot;
 
-    // 判断是否为空
+    void link(BiNode* child, BiNode* root);
+    BiNode* merge(BiNode* h1, BiNode* h2);
+    BiNode* unionHeaps(BiNode* h1, BiNode* h2);
+    BiNode* reverse(BiNode* root);
+    BiNode* extractMinimum(BiNode* root);
+    void decreaseKey(BiNode* node, int key);
+    void increaseKey(BiNode* node, int key);
+    void updateKey(BiNode* node, int key);
+    BiNode* search(BiNode* root, int key);
+
+public:
+    Binomial_Queue():mRoot(nullptr){}
+    ~Binomial_Queue(){};
+
     bool isEmpty();
-    // 新建key对应的节点，并将其插入到二项队列中
-    void insert(int key, int vertex);
-    // 移除二项队列中的最小key节点
-    void removeMin();
-    // 将other合并到当前堆中
-    void combine(Binomial_Queue *other);
-    // 获取二项队列中最小键值，并保存到pkey中；成功返回true，否则返回false。
     bool minimum(int *pkey);
-
-private:
-    BiNode combineTrees(BiNode t1, BiNode t2);
-    BiNode* search(int vertex);
-    BiNode* search(BiNode* node, int vertex);
+    void combine(Binomial_Queue* other);
+    void insert(int key, int vertex);
+    void removeMin();
+    bool contains(int key);
+    void update(int vertex, int newkey);
 };
-
 
 #endif
