@@ -3,9 +3,6 @@
 
 using namespace std;
 
-/*
- * 构造函数
- */
 FibHeap::FibHeap()
 {
     keyNum = 0;
@@ -14,16 +11,15 @@ FibHeap::FibHeap()
     cons = NULL;
 }
 
-/*
- * 析构函数
- */
 FibHeap::~FibHeap()
 {
     destroy();
 }
 
-/*
- * 将node从双链表移除
+/**
+ * @brief 从双链表中移除节点
+ * 
+ * @param node 要移除的节点
  */
 void FibHeap::removeNode(FibNode *node)
 {
@@ -31,11 +27,12 @@ void FibHeap::removeNode(FibNode *node)
     node->right->left = node->left;
 }
 
-/*
- * 将node堆结点加入root结点之前(循环链表中)
- *   a …… root
- *   a …… node …… root
-*/
+/**
+ * @brief 将节点添加到双链表的root节点之前
+ * 
+ * @param node 要添加的节点
+ * @param root 根节点
+ */
 void FibHeap::addNode(FibNode *node, FibNode *root)
 {
     node->left = root->left;
@@ -44,7 +41,11 @@ void FibHeap::addNode(FibNode *node, FibNode *root)
     root->left = node;
 }
 
-//判断是否为空
+/**
+ * @brief 检查堆是否为空
+ * 
+ * @return 如果堆为空则返回true，否则返回false
+ */
 bool FibHeap::isEmpty()
 {
     if(min == nullptr)
@@ -52,8 +53,10 @@ bool FibHeap::isEmpty()
     return false;
 }
 
-/*
- * 将节点node插入到斐波那契堆中
+/**
+ * @brief 将节点插入到堆中
+ * 
+ * @param node 要插入的节点
  */
 void FibHeap::insert(FibNode *node)
 {
@@ -68,8 +71,11 @@ void FibHeap::insert(FibNode *node)
     keyNum++;
 }
 
-/*
- * 新建键值为key的节点，并将其插入到斐波那契堆中
+/**
+ * @brief 根据键值和顶点创建新节点，并插入到堆中
+ * 
+ * @param key 节点的键值
+ * @param vertex 节点的顶点
  */
 void FibHeap::insert(int key, int vertex)
 {
@@ -82,10 +88,11 @@ void FibHeap::insert(int key, int vertex)
     insert(node);
 }
 
-/*
- * 将双向链表b链接到双向链表a的后面
- *
- * 注意： 此处a和b都是双向链表
+/**
+ * @brief 将双向链表b连接到双向链表a的后面
+ * 
+ * @param a 列表a
+ * @param b 列表b
  */
 void FibHeap::catList(FibNode *a, FibNode *b)
 {
@@ -99,9 +106,9 @@ void FibHeap::catList(FibNode *a, FibNode *b)
 }
 
 /**
- * @brief 
+ * @brief 合并另一个斐波那契堆到当前堆中
  * 
- * @param other 
+ * @param other 要合并的另一个斐波那契堆
  */
 void FibHeap::combine(FibHeap *other)
 {
@@ -134,9 +141,10 @@ void FibHeap::combine(FibHeap *other)
     }
 }
 
-/*
- * 将"堆的最小结点"从根链表中移除，
- * 这意味着"将最小节点所属的树"从堆中移除!
+/**
+ * @brief 从堆中提取最小节点
+ * 
+ * @return 最小节点
  */
 FibNode *FibHeap::extractMin()
 {
@@ -154,8 +162,11 @@ FibNode *FibHeap::extractMin()
     return p;
 }
 
-/*
- * 将node链接到root根结点
+/**
+ * @brief 将node链接到root根结点
+ * 
+ * @param node 新节点
+ * @param root 根节点
  */
 void FibHeap::link(FibNode *node, FibNode *root)
 {
@@ -172,8 +183,8 @@ void FibHeap::link(FibNode *node, FibNode *root)
     node->marked = false;
 }
 
-/*
- * 创建consolidate所需空间
+/**
+ * @brief 创建consolidate所需空间
  */
 void FibHeap::makeCons()
 {
@@ -190,8 +201,8 @@ void FibHeap::makeCons()
                                 sizeof(FibHeap *) * (maxDegree + 1));
 }
 
-/*
- * 合并斐波那契堆的根链表中左右相同度数的树
+/**
+ * @brief 合并斐波那契堆的根链表中左右相同度数的树
  */
 void FibHeap::consolidate()
 {
@@ -223,7 +234,6 @@ void FibHeap::consolidate()
         cons[d] = x;
     }
     min = NULL;
-
     // 将cons中的结点重新加到根表中
     for (i = 0; i < D; i++)
     {
@@ -241,8 +251,9 @@ void FibHeap::consolidate()
     }
 }
 
-/*
- * 移除最小节点
+/**
+ * @brief 移除最小节点
+ * 
  */
 void FibHeap::removeMin()
 {
@@ -264,7 +275,6 @@ void FibHeap::removeMin()
         addNode(child, min);
         child->parent = NULL;
     }
-
     // 将m从根链表中移除
     removeNode(m);
     // 若m是堆中唯一节点，则设置堆的最小节点为NULL；
@@ -281,8 +291,11 @@ void FibHeap::removeMin()
     delete m;
 }
 
-/*
- * 获取斐波那契堆中最小键值对应节点名，并保存到pkey中；成功返回true，否则返回false。
+/**
+ * @brief 获取斐波那契堆中最小键值对应节点名，并保存到pkey中
+ * 
+ * @param pkey 保存最小键值对应节点名的变量
+ * @return 成功返回true，否则返回false
  */
 bool FibHeap::minimum(int *pkey)
 {
@@ -293,8 +306,11 @@ bool FibHeap::minimum(int *pkey)
     return true;
 }
 
-/*
- * 修改度数
+/**
+ * @brief 修改节点的度数
+ * 
+ * @param parent 父节点
+ * @param degree 度数
  */
 void FibHeap::renewDegree(FibNode *parent, int degree)
 {
@@ -303,9 +319,11 @@ void FibHeap::renewDegree(FibNode *parent, int degree)
         renewDegree(parent->parent, degree);
 }
 
-/*
- * 将node从父节点parent的子链接中剥离出来，
- * 并使node成为"堆的根链表"中的一员。
+/**
+ * @brief 将节点从父节点parent的子链接中剥离出来，并使其成为堆的根链表中的一员
+ * 
+ * @param node 要剥离的节点
+ * @param parent 父节点
  */
 void FibHeap::cut(FibNode *node, FibNode *parent)
 {
@@ -324,13 +342,10 @@ void FibHeap::cut(FibNode *node, FibNode *parent)
     addNode(node, min);
 }
 
-/*
- * 对节点node进行"级联剪切"
- *
- * 级联剪切：如果减小后的结点破坏了最小堆性质，
- *     则把它切下来(即从所在双向链表中删除，并将
- *     其插入到由最小树根节点形成的双向链表中)，
- *     然后再从"被切节点的父节点"到所在树根节点递归执行级联剪枝
+/**
+ * @brief 对节点进行级联剪切
+ * 
+ * @param node 要剪切的节点
  */
 void FibHeap::cascadingCut(FibNode *node)
 {
@@ -347,9 +362,12 @@ void FibHeap::cascadingCut(FibNode *node)
     }
 }
 
-/*
- * 将斐波那契堆中节点node的值减少为key
- */
+/**
+ * @brief 将节点的键值减小为key
+ * 
+ * @param node 要减小键值的节点
+ * @param key 新键值
+*/
 void FibHeap::decrease(FibNode *node, int key)
 {
     FibNode *parent;
@@ -378,8 +396,11 @@ void FibHeap::decrease(FibNode *node, int key)
         min = node;
 }
 
-/*
- * 将斐波那契堆中节点node的值增加为key
+/**
+ * @brief 将节点的键值增加为key
+ * 
+ * @param node 要增加键值的节点
+ * @param key 新键值
  */
 void FibHeap::increase(FibNode *node, int key)
 {
@@ -394,7 +415,6 @@ void FibHeap::increase(FibNode *node, int key)
              << "is no greater than current key(" << node->key << ")" << endl;
         return;
     }
-
     // 将node每一个儿子(不包括孙子,重孙,...)都添加到"斐波那契堆的根链表"中
     while (node->child != NULL)
     {
@@ -410,11 +430,10 @@ void FibHeap::increase(FibNode *node, int key)
     }
     node->degree = 0;
     node->key = key;
-
     // 如果node不在根链表中，
-    //     则将node从父节点parent的子链接中剥离出来，
-    //     并使node成为"堆的根链表"中的一员，
-    //     然后进行"级联剪切"
+    // 则将node从父节点parent的子链接中剥离出来，
+    // 并使node成为"堆的根链表"中的一员，
+    // 然后进行"级联剪切"
     // 否则，则判断是否需要更新堆的最小节点
     parent = node->parent;
     if (parent != NULL)
@@ -434,8 +453,11 @@ void FibHeap::increase(FibNode *node, int key)
     }
 }
 
-/*
- * 更新斐波那契堆的节点node的键值为key
+/**
+ * @brief 更新节点的键值为key
+ * 
+ * @param node 要更新键值的节点
+ * @param key 新键值
  */
 void FibHeap::update(FibNode *node, int key)
 {
@@ -447,6 +469,12 @@ void FibHeap::update(FibNode *node, int key)
         cout << "No need to update" << endl;
 }
 
+/**
+ * @brief 更新节点的键值为key
+ * 
+ * @param vertex 要更新的节点的顶点
+ * @param newkey 新键值
+ */
 void FibHeap::update(int vertex, int newkey)
 {
     FibNode *node;
@@ -458,17 +486,19 @@ void FibHeap::update(int vertex, int newkey)
         insert(newkey, vertex);
 }
 
-/*
- * 在最小堆root中查找节点vertex
+/**
+ * @brief 在最小堆中查找节点
+ * 
+ * @param root 根节点
+ * @param vertex 要查找的节点的顶点
+ * @return 节点指针，如果找到则返回指向该节点的指针，否则返回NULL
  */
 FibNode *FibHeap::search(FibNode *root, int vertex)
 {
     FibNode *t = root; // 临时节点
     FibNode *p = NULL; // 要查找的节点
-
     if (root == NULL)
         return root;
-
     do
     {
         if (t->vertex == vertex)
@@ -483,12 +513,14 @@ FibNode *FibHeap::search(FibNode *root, int vertex)
         }
         t = t->right;
     } while (t != root);
-
     return p;
 }
 
-/*
- * 在斐波那契堆中查找节点vertex
+/**
+ * @brief 在斐波那契堆中查找节点
+ * 
+ * @param vertex 要查找的节点的顶点
+ * @return 节点指针，如果找到则返回指向该节点的指针，否则返回NULL
  */
 FibNode *FibHeap::search(int vertex)
 {
@@ -498,17 +530,21 @@ FibNode *FibHeap::search(int vertex)
     return search(min, vertex);
 }
 
-/*
- * 在斐波那契堆中是否存在节点vertex。
- * 存在返回true，否则返回false。
+/**
+ * @brief 在斐波那契堆中是否存在节点
+ * 
+ * @param vertex 节点的顶点
+ * @return 存在返回true，否则返回false
  */
 bool FibHeap::contains(int vertex)
 {
     return search(vertex) != NULL ? true : false;
 }
 
-/*
- * 删除结点node
+/**
+ * @brief 删除节点
+ * 
+ * @param node 要删除的节点
  */
 void FibHeap::remove(FibNode *node)
 {
@@ -517,6 +553,11 @@ void FibHeap::remove(FibNode *node)
     removeMin();
 }
 
+/**
+ * @brief 删除具有特定键值的节点
+ * 
+ * @param key 节点的键值
+ */
 void FibHeap::remove(int key)
 {
     FibNode *node;
@@ -531,16 +572,14 @@ void FibHeap::remove(int key)
     remove(node);
 }
 
-/*
- * 销毁斐波那契堆
+/**
+ * @brief 销毁斐波那契节点
  */
 void FibHeap::destroyNode(FibNode *node)
 {
     FibNode *start = node;
-
     if (node == NULL)
         return;
-
     do
     {
         destroyNode(node->child);
@@ -550,6 +589,9 @@ void FibHeap::destroyNode(FibNode *node)
     } while (node != start);
 }
 
+/**
+ * @brief 销毁斐波那契节点
+ */
 void FibHeap::destroy()
 {
     destroyNode(min);

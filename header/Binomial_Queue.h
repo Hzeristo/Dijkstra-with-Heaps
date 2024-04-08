@@ -36,7 +36,7 @@ private:
     BiNode* merge(BiNode* h1, BiNode* h2);
     BiNode* unionHeaps(BiNode* h1, BiNode* h2);
     BiNode* reverse(BiNode* root);
-    BiNode* extractMinimum(BiNode* root);
+    BiNode* removeMin(BiNode* root);
     void decreaseKey(BiNode* node, int key);
     void increaseKey(BiNode* node, int key);
     void updateKey(BiNode* node, int key);
@@ -46,6 +46,7 @@ public:
     Binomial_Queue():mRoot(nullptr){}
     ~Binomial_Queue(){};
 
+    // 判断是否为空
     bool isEmpty();
     bool minimum(int *pkey);
     void combine(Binomial_Queue* other);
