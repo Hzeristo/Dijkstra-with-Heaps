@@ -1,5 +1,6 @@
 #include "Binomial_Queue.h"
 
+
 bool Binomial_Queue::isEmpty()
 {
     return mRoot == nullptr;
@@ -24,6 +25,12 @@ bool Binomial_Queue::minimum(int *pkey)
     return true;
 }
 
+/**
+ * @brief 将同度数的两个二项树合并为一个二项树。
+ * 
+ * @param child 将被链接的子节点。
+ * @param root 将要链接子节点的根节点。
+ */
 void Binomial_Queue::link(BiNode *child, BiNode *root)
 {
     child->parent = root;
@@ -32,6 +39,13 @@ void Binomial_Queue::link(BiNode *child, BiNode *root)
     root->degree++;
 }
 
+/**
+ * @brief 将两个二项队列重组根节点顺序并合并为一个队列，不改变各个二项树结构。
+ * 
+ * @param h1 第一个待合并的二项堆。
+ * @param h2 第二个待合并的二项堆。
+ * @return BiNode* 合并后的二项堆的根节点。
+ */
 BiNode *Binomial_Queue::merge(BiNode *h1, BiNode *h2)
 {
     if(h1 == nullptr) return h2;
@@ -62,6 +76,13 @@ BiNode *Binomial_Queue::merge(BiNode *h1, BiNode *h2)
     return root;
 }
 
+/**
+ * @brief 将两个二项队列合并成一个二项队列。
+ * 
+ * @param h1 第一个待合并的二项堆。
+ * @param h2 第二个待合并的二项堆。
+ * @return BiNode* 合并后的二项堆的根节点。
+ */
 BiNode *Binomial_Queue::unionHeaps(BiNode *h1, BiNode *h2)
 {
     BiNode* root = merge(h1, h2);
@@ -91,6 +112,7 @@ BiNode *Binomial_Queue::unionHeaps(BiNode *h1, BiNode *h2)
     }
     return root;
 }
+
 
 BiNode *Binomial_Queue::reverse(BiNode *root)
 {

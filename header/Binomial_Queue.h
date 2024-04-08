@@ -5,6 +5,10 @@
 
 using namespace std;
 
+/**
+ * @class BiNode
+ * @brief 二项队列的节点
+ */
 class BiNode
 {
 public:
@@ -19,12 +23,16 @@ public:
     BiNode(int key, int vertex):key(key), vertex(vertex), degree(0), child(nullptr), parent(nullptr), next(nullptr){};
 };
 
+/**
+ * @class Binomial_Queue
+ * @brief 实现了二项队列数据结构
+ */
 class Binomial_Queue
 {
-    private:
+private:
     BiNode* mRoot;
 
-    void link(BiNode* child, BiNode* root);
+    void link(BiNode* child, BiNode* root); 
     BiNode* merge(BiNode* h1, BiNode* h2);
     BiNode* unionHeaps(BiNode* h1, BiNode* h2);
     BiNode* reverse(BiNode* root);
